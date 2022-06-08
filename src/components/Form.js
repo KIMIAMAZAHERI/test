@@ -1,23 +1,32 @@
 import { useState } from "react";
 
+
 const Form = () => {
     
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
+    const[list, setList] = useState([]);
 
-    const handelSubmit = (e) =>{
+    const handelSubmit =(e)=>{
         e.preventDefault();
         console.log (firstName, lastName, email, message);
-        setFirstName("");
-        setLastName("");
-        setEmail("");
-        setMessage("");
-    };
+        const data={firstName, lastName, email, message};
+        if (firstName&&lastName&&email&&message){
+            setList((ls)=>[...ls,data])
+            setFirstName("");
+            setLastName("");
+            setEmail("");
+            setMessage("");
+        }
+    }
+
 
     return (
-        <form>
+        <div>
+           
+        <form onSubmit= {handelSubmit}>
             <lable htmlFor="firstName">First Name </lable>
             <input 
             onChange={(e) => setFirstName (e.target.value)} 
@@ -54,12 +63,23 @@ const Form = () => {
             value={message}
              />
              <br/>
-             <button type="submit" onClick={handelSubmit}>
+             <button type="submit">
                 Submit
             </button>
-
         </form>
+
+        {
+            list.map((a)=><div>
+                <li>{a.firstName}</li>
+                <li>{a.lastName}</li>
+                <li>{a.email}</li>
+                <li>{a.message}</li>
+            </div>)
+        }
+        </div>
     );
 };
 
 export default Form; 
+
+
